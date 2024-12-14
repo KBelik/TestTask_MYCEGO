@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Яндекс.Диск</title>
+</head>
+<body>
+    <h1>Просмотр файлов на Яндекс.Диске</h1>
+    <form method="post" action="/list_files">
+        <input type="text" name="public_key" placeholder="Введите публичную ссылку" required>
+        <select name="file_type">
+            <option value="all">Все файлы</option>
+            <option value="image">Изображения</option>
+            <option value="application">Документы</option>
+            <!-- Добавьте другие типы, если необходимо -->
+        </select>
+        <button type="submit">Показать файлы</button>
+    </form>
+
+    {% if files %}
+        <h2>Список файлов:</h2>
+        <form method="post" action="/download_multiple_files">
+            <ul>
+                {% for file in files %}
+                    <li>
+                        <input type="checkbox" name="file_urls" value= {{file.file}}>
+                        {{ file.name }}
+                        <a href="/download_file?url={{ file.file }}">Скачать</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <button type="submit">Скачать выбранные файлы</button>
+        </form>
+    {% endif %}
+</body>
+</html>
